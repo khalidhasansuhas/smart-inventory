@@ -7,7 +7,7 @@ const Navbar = () => {
             className="absolute inset-x-0 top-0 h-16 flex items-center"
             style={{
                 background: 'linear-gradient(90deg, #2B5876 0.92%, #464776 95.37%)',
-                width: '100vw',
+                maxWidth:'1440px'
             }}
         >
             <div className="text-white text-xl font-bold ml-6 items-center w-full">
