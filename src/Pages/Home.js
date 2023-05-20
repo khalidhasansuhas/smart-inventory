@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FiEdit } from 'react-icons/fi';
+import {RiDeleteBinLine} from 'react-icons/ri';
+import ProductModal from '../AddNewProductModal/ProductModal';
 
 const Home = () => {
+
+    const [showModal, setShowModal] = useState(false)
+
     const data = [
         {
             id: 1,
@@ -37,11 +43,15 @@ const Home = () => {
         },
     ];
     return (
+        <>
         <div className='h-screen mt-16  '>
             <div className='sm:flex sm:justify-between'>
-                <button className="bg-sky-900 text-white py-2 px-4 ml-4 mt-4">
+                {/* <button className="bg-sky-900 text-white py-2 px-4 ml-4 mt-4">
                     Add Inventory
-                </button>
+                </button> */}
+                <label onClick={()=>setShowModal(true)
+                
+                } className=' hover:cursor-pointer bg-sky-900 text-white py-2 px-4 ml-4 mt-4'> Add Inventory</label>
                 <div className="sm:relative flex items-center mr-4 mt-3 ml-4">
                     <input
                         type="text"
@@ -62,53 +72,53 @@ const Home = () => {
                     </svg>
                 </div>
             </div>
-            <div className='w-{98} mx-4'>
-                <table className="w-full border-collapse   mt-5">
+            <div className='w-{98} mx-4 space-y-4'>
+                <table className="w-full  mt-5">
                     <thead>
-                        <tr className="bg-gray-200">
-                            <th className="py-2 px-4">SL</th>
-                            <th className="py-2 px-4">Asset No.</th>
-                            <th className="py-2 px-4">Category</th>
-                            <th className="py-2 px-4">Image</th>
-                            <th className="py-2 px-4">Product Name</th>
-                            <th className="py-2 px-4">Serial No.</th>
-                            <th className="py-2 px-4">Price</th>
-                            <th className="py-2 px-4">Warranty</th>
-                            <th className="py-2 px-4">Purchase Date</th>
-                            <th className="py-2 px-4">Action</th>
+                        <tr className="bg-gray-300">
+                            <th className="py-2 font-semibold px-4">SL</th>
+                            <th className="py-2 font-semibold px-4">Asset No.</th>
+                            <th className="py-2 font-semibold px-4">Category</th>
+                            <th className="py-2 font-semibold px-4">Image</th>
+                            <th className="py-2 font-semibold px-4">Product Name</th>
+                            <th className="py-2 font-semibold px-4">Serial No.</th>
+                            <th className="py-2 font-semibold px-4">Price</th>
+                            <th className="py-2 font-semibold px-4">Warranty</th>
+                            <th className="py-2 font-semibold px-4">Purchase Date</th>
+                            <th className="py-2 font-semibold px-4">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody  >
                         {data.map((row) => (
-                            <tr key={row.id} className="bg-gray-50">
-                                <td className="py-2 px-4">{row.id}</td>
-                                <td className="py-2 px-4">{row.assetNo}</td>
-                                <td className="py-2 px-4">{row.category}</td>
-                                <td className="py-2 px-4">
+                            <tr key={row.id} className="bg-gray-100  ">
+                                <td className="py-2 text-center px-4 ">{row.id}</td>
+                                <td className="py-2 text-center px-4">{row.assetNo}</td>
+                                <td className="py-2 text-center px-4">{row.category}</td>
+                                <td className="py-2 text-center px-4">
                                     <img
                                         src={row.image}
                                         alt={row.productName}
-                                        className="h-8 w-8 rounded-full"
+                                        className="h-8 w-8 mx-auto rounded-full"
                                     />
                                 </td>
-                                <td className="py-2 px-4">{row.productName}</td>
-                                <td className="py-2 px-4">{row.serialNo}</td>
-                                <td className="py-2 px-4">{row.price}</td>
-                                <td className="py-2 px-4">{row.warranty}</td>
-                                <td className="py-2 px-4">{row.purchaseDate}</td>
-                                <td className="py-2 px-4">
-                                    <button className="text-blue-500 hover:text-blue-700 mr-2">
-                                        Edit
-                                    </button>
-                                    <button className="text-red-500 hover:text-red-700">Delete</button>
+                                <td className="py-2 text-center px-4">{row.productName}</td>
+                                <td className="py-2 text-center px-4">{row.serialNo}</td>
+                                <td className="py-2 text-center px-4">{row.price}</td>
+                                <td className="py-2 text-center px-4">{row.warranty}</td>
+                                <td className="py-2 text-center px-4">{row.purchaseDate}</td>
+                                <td className="py-2 text-center px-4 flex justify-center">
+                                    <FiEdit className='mr-2 text-sky-700'></FiEdit>
+                                    <RiDeleteBinLine className='text-red-500'></RiDeleteBinLine>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-
+            
         </div>
+        <ProductModal isVisible={showModal} onClose={()=>setShowModal(false)} ></ProductModal>
+        </>
     );
 };
 
