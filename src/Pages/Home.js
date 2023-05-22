@@ -1,11 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiEdit } from 'react-icons/fi';
 import {RiDeleteBinLine} from 'react-icons/ri';
 import ProductModal from '../AddNewProductModal/ProductModal';
+import axios from 'axios';
+import EditModal from '../AddNewProductModal/EditModal';
 
 const Home = () => {
 
     const [showModal, setShowModal] = useState(false)
+    const[editModal, setEditModal] = useState(false)
+    const [products, setProducts] = useState([]);
+
+    const apiKey = 'pdovN/FKkK3koZN3fCSpTXe6IKM2ufFpqZ8aHEspwuI=';
+
+   
+    const apiUrl = "http://182.163.101.173:49029/product-crud/products";
+    
+    fetch(apiUrl, {
+      headers: {
+        "apiKey": apiKey
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Process the retrieved data
+        console.log(data);
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error(error);
+      });
+   
+    
+    
+    
+    
+    
+    
+    
+  
+
 
     const data = [
         {
@@ -107,8 +141,10 @@ const Home = () => {
                                 <td className="py-2 text-center px-4">{row.warranty}</td>
                                 <td className="py-2 text-center px-4">{row.purchaseDate}</td>
                                 <td className="py-2 text-center px-4 flex justify-center">
-                                    <FiEdit className='mr-2 text-sky-700'></FiEdit>
-                                    <RiDeleteBinLine className='text-red-500'></RiDeleteBinLine>
+                                    <FiEdit
+                                    onClick={()=>setEditModal(true)}
+                                    className='mr-2 text-sky-700 hover:cursor-pointer'></FiEdit>
+                                    <RiDeleteBinLine className='text-red-500 hover:cursor-pointer'></RiDeleteBinLine>
                                 </td>
                             </tr>
                         ))}
@@ -118,6 +154,7 @@ const Home = () => {
             
         </div>
         <ProductModal isVisible={showModal} onClose={()=>setShowModal(false)} ></ProductModal>
+        <EditModal  isVisible={editModal} onClose={()=>setEditModal(false)}> </EditModal>
         </>
     );
 };
