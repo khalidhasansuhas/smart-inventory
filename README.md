@@ -11,6 +11,7 @@ https://smart-inventory-1c2ae.web.app/
 
 ## Dependencies
 -react-router-dom,
+-TailwindCSS,
 -react-icons,
 -firebase,
 -sweetalert2,
