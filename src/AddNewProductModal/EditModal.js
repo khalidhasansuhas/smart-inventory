@@ -1,6 +1,5 @@
 import React,{ useEffect, useState } from 'react';
 import { FiCamera } from 'react-icons/fi';
-import { MdAddCircle } from 'react-icons/md';
 import axios from 'axios';
 
 const EditModal = ({ isVisible, onClose }) => {
@@ -35,8 +34,8 @@ const EditModal = ({ isVisible, onClose }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const purchaseDate = `${purchaseYear}-${purchaseMonth}-${purchaseDay}`;
-        const warrantyDate = `${warrantyYear}-${warrantyMonth}-${warrantyDay}`;
+        // const purchaseDate = `${purchaseYear}-${purchaseMonth}-${purchaseDay}`;
+        // const warrantyDate = `${warrantyYear}-${warrantyMonth}-${warrantyDay}`;
 
 
         // Create a FormData object
@@ -108,14 +107,14 @@ const EditModal = ({ isVisible, onClose }) => {
     if (!isVisible) return null;
     return (
         <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' >
-        <div className='sm:w-[582px] relative'>
+        <div className='sm:w-[582px] relative overflow-y-auto'>
             <button className='absolute right-4 top-2'
                 onClick={() => onClose()}
             >X</button>
             <div className='bg-gray-50 text-center font-semibold p-2 pb-4'>Edit This Product</div>
             <form onSubmit={handleSubmit} className='w-full bg-gray-50'>
                 {/* category */}
-                <div className='flex pb-4'>
+                <div className='sm:flex pb-4'>
                     <div className='w-1/3'>
                         <p className='text-right  text-sm'>Category <span className='text-red-700'>*</span></p>
                     </div>
@@ -144,7 +143,7 @@ const EditModal = ({ isVisible, onClose }) => {
                 {/* Product Name */}
                 <div className='sm:flex pb-4'>
                     <div className='sm:w-1/3'>
-                        <p className='text-right  text-sm'>Product Name <span className='text-red-700'>*</span></p>
+                        <p className='sm:text-right ml-4 sm:-ml-0  text-sm'>Product Name <span className='text-red-700'>*</span></p>
                     </div>
                     <div className='sm:w-2/3'>
                         <select required value={selectedProduct} onChange={handleProductChange} className="border relative  text-sm  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none">
@@ -166,8 +165,8 @@ const EditModal = ({ isVisible, onClose }) => {
                 </div>
                 {/* Serial Number */}
                 <div className='sm:flex pb-4'>
-                    <div className='w-1/3'>
-                        <p className='text-right text-sm'>Serial Number</p>
+                    <div className='sm:w-1/3'>
+                        <p className='sm:text-right ml-4 sm:ml-0 text-sm'>Serial Number</p>
                     </div>
                     <div className='w-2/3'>
                         <input type="text" name="serial" id="" className='border relative  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none' />
@@ -176,8 +175,8 @@ const EditModal = ({ isVisible, onClose }) => {
                 </div>
                 {/* purchase price */}
                 <div className='sm:flex pb-4'>
-                    <div className='w-1/3'>
-                        <p className='text-right text-sm'>Purchase Price <span className='text-red-700'>*</span></p>
+                    <div className='sm:w-1/3'>
+                        <p className='sm:text-right ml-4 sm:ml-0 text-sm'>Purchase Price <span className='text-red-700'>*</span></p>
                     </div>
                     <div className='w-2/3'>
 
@@ -186,8 +185,8 @@ const EditModal = ({ isVisible, onClose }) => {
                 </div>
                 {/* select date */}
                 <div className='sm:flex pb-4'>
-                    <div className='w-1/3'>
-                        <p className='text-right text-sm'>Purchase Date <span className='text-red-700'>*</span></p>
+                    <div className='sm:w-1/3'>
+                        <p className='sm:text-right ml-4 sm:ml-0 text-sm'>Purchase Date <span className='text-red-700'>*</span></p>
                     </div>
                     <div className='w-2/3'>
                         <div className='grid grid-cols-3 mr-7'>
@@ -263,7 +262,7 @@ const EditModal = ({ isVisible, onClose }) => {
                         <>
                             <div className='sm:flex pb-4'>
                                 <div className='sm:w-1/3'>
-                                    <p className='text-right  text-sm'>Warranty <span className='text-red-700'>*</span></p>
+                                    <p className='sm:text-right ml-4 sm:ml-0 text-sm'>Warranty <span className='text-red-700'>*</span></p>
                                 </div>
                                 <div className='sm:w-2/3'>
                                     <select required className="border text-sm relative  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none">
@@ -371,16 +370,7 @@ const EditModal = ({ isVisible, onClose }) => {
 
                     </div>
                 </div>
-                {/* add more product */}
-                <div className='sm:flex pb-4 mt-[24px]'>
-                    <div className='w-1/3'>
-
-                    </div>
-                    <div className='w-2/3 flex justify-end mr-7 items-center'>
-                        <MdAddCircle className='text-blue-700'></MdAddCircle>
-                        <p className='text-left hover:cursor-pointer text-blue-700 font-semibold text-sm pl-1'>Add more Product</p>
-                    </div>
-                </div>
+               
                 {/* buttons */}
                 <div className='sm:flex pb-6 '>
                     <div className='w-1/3'>

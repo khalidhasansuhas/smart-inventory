@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FiCamera } from 'react-icons/fi';
 import { MdAddCircle } from 'react-icons/md';
-import axios from 'axios';
+
 
 const ProductModal = ({ isVisible, onClose }) => {
 
@@ -11,6 +11,17 @@ const ProductModal = ({ isVisible, onClose }) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [hasWarranty, setHasWarranty] = useState(false);
 
+    const [assetNumber, setAssetNumber] = useState('');
+ 
+    const [serialNumber, setSerialNumber] = useState('');
+    const [purchasePrice, setPurchasePrice] = useState('');
+    const [purchaseDate, setPurchaseDate] = useState('');
+    const [warrantyInYears, setWarrantyInYears] = useState('');
+    const [warrantyExpireDate, setWarrantyExpireDate] = useState('');
+    const [productPhoto, setProductPhoto] = useState('');
+    const [product, setProduct] = useState([]);
+
+    //loading category data form API
     useEffect(() => {
         fetch('http://182.163.101.173:49029/product-crud/products/category-name-wise-product-names')
             .then(response => response.json())
@@ -30,35 +41,50 @@ const ProductModal = ({ isVisible, onClose }) => {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         setSelectedImage(URL.createObjectURL(file));
+        setProductPhoto(file)
     };
 
-    const handleSubmit = (event) => {
+    const handleAddProduct = (event) => {
         event.preventDefault();
 
-        const purchaseDate = `${purchaseYear}-${purchaseMonth}-${purchaseDay}`;
-        const warrantyDate = `${warrantyYear}-${warrantyMonth}-${warrantyDay}`;
+        const purchaseDateValue = `${purchaseDay}-${purchaseMonth}-${purchaseYear}`;
+        const warrantyExpireDateValue = `${warrantyDay}-${warrantyMonth}-${warrantyYear}`;
+        const randomSixDigitCode = Math.floor(100000 + Math.random() * 900000);
+        const assetNumberValue = "NSL" + randomSixDigitCode;
+
+        setPurchaseDate(purchaseDateValue);
+        setWarrantyExpireDate(warrantyExpireDateValue);
+        setAssetNumber(assetNumberValue);
 
 
-        // Create a FormData object
-        const formData = new FormData();
-        formData.append('productPhoto', event.target.productPhoto.files[0]);
+    
 
-        // Set the API key in the headers
-        const headers = {
-            apiKey: 'pdovN/FKkK3koZN3fCSpTXe6IKM2ufFpqZ8aHEspwuI='
-        };
+        const newProduct = {
+            assetNumber: assetNumber,
+            categoryName: selectedCategory,
+            productName: selectedProduct,
+            serialNumber: serialNumber,
+            purchasePrice: purchasePrice,
+            purchaseDate: purchaseDate,
+            warrantyInYears: warrantyInYears,
+            warrantyExpireDate: warrantyExpireDate,
+            productPhoto: productPhoto,
+        }
 
-        // Perform the PUT request
-        axios.put('http://182.163.101.173:49029/product-crud/products/13/upload-product-photo', formData, { headers })
-            .then(response => {
-                // Handle successful response
-                console.log(response);
-            })
-            .catch(error => {
-                // Handle error
-                console.error(error);
-            });
+        setProduct([...product, newProduct]);
+        setAssetNumber('');
+        setSelectedCategory('');
+        setSelectedProduct('');
+        setPurchaseDate('');
+        setWarrantyExpireDate('');
+        setSerialNumber('');
+        setProductPhoto(null);
+
+       
+
+
     };
+
 
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
@@ -68,6 +94,18 @@ const ProductModal = ({ isVisible, onClose }) => {
     const handleProductChange = (event) => {
         setSelectedProduct(event.target.value);
     };
+
+    const handleSerialNumberChange = (event) => {
+        setSerialNumber(event.target.value)
+    }
+
+    const handlePurchasePrice = (event) => {
+        setPurchasePrice(event.target.value)
+    }
+
+    const handleWarrantyInYears = (event) => {
+        setWarrantyInYears(event.target.value)
+    }
 
     const currentYear = new Date().getFullYear();
 
@@ -106,24 +144,29 @@ const ProductModal = ({ isVisible, onClose }) => {
     };
 
 
+
     if (!isVisible) return null;
 
 
     return (
         <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' >
-            <div className='sm:w-[582px] relative'>
+            <div className='sm:w-[582px] relative overflow-y-auto'>
                 <button className='absolute right-4 top-2'
                     onClick={() => onClose()}
                 >X</button>
                 <div className='bg-gray-50 text-center font-semibold p-2 pb-4'>Add New Product</div>
-                <form onSubmit={handleSubmit} className='w-full bg-gray-50'>
+                <form onSubmit={handleAddProduct} className='w-full bg-gray-50'>
                     {/* category */}
-                    <div className='flex pb-4'>
+                    <div className='sm:flex pb-4'>
                         <div className='w-1/3'>
-                            <p className='text-right  text-sm'>Category <span className='text-red-700'>*</span></p>
+                            <p className='sm:text-right ml-4 sm:ml-0 text-sm'>Category <span className='text-red-700'>*</span></p>
                         </div>
                         <div className='w-2/3'>
-                            <select required value={selectedCategory} onChange={handleCategoryChange} className="border relative border-gray-300 text-sm sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none">
+                            <select
+                                name='categoryName'
+                                id='categoryName'
+
+                                required value={selectedCategory} onChange={handleCategoryChange} className="border relative border-gray-300 text-sm  sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none">
                                 <option value=" ">Select a Category</option>
                                 {
                                     categories.map((category) => (
@@ -147,10 +190,10 @@ const ProductModal = ({ isVisible, onClose }) => {
                     {/* Product Name */}
                     <div className='sm:flex pb-4'>
                         <div className='sm:w-1/3'>
-                            <p className='text-right  text-sm'>Product Name <span className='text-red-700'>*</span></p>
+                            <p className='sm:text-right ml-4 sm:ml-0 text-sm'>Product Name <span className='text-red-700'>*</span></p>
                         </div>
                         <div className='sm:w-2/3'>
-                            <select required value={selectedProduct} onChange={handleProductChange} className="border relative  text-sm  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none">
+                            <select name='productName' required value={selectedProduct} onChange={handleProductChange} className="border relative  text-sm  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none">
                                 <option value="">Select a Product</option>
                                 {products.map((product) => (
                                     <option key={product.name} value={product.name}>
@@ -173,7 +216,13 @@ const ProductModal = ({ isVisible, onClose }) => {
                             <p className='text-right text-sm'>Serial Number</p>
                         </div>
                         <div className='w-2/3'>
-                            <input type="text" name="serial" id="" className='border relative  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none' />
+                            <input
+                                type="text"
+                                name="serialNumber"
+                                id="serialNumber"
+                                value={serialNumber}
+                                onChange={handleSerialNumberChange}
+                                className='border relative  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none' />
 
                         </div>
                     </div>
@@ -184,7 +233,13 @@ const ProductModal = ({ isVisible, onClose }) => {
                         </div>
                         <div className='w-2/3'>
 
-                            <input type="text" name="price" id="" className='border relative  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none' />
+                            <input
+                                type="text"
+                                name="purchasePrice"
+                                id="purchasePrice"
+                                value={purchasePrice}
+                                onChange={handlePurchasePrice}
+                                className='border relative  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none' />
                         </div>
                     </div>
                     {/* select date */}
@@ -266,10 +321,15 @@ const ProductModal = ({ isVisible, onClose }) => {
                             <>
                                 <div className='sm:flex pb-4'>
                                     <div className='sm:w-1/3'>
-                                        <p className='text-right  text-sm'>Warranty <span className='text-red-700'>*</span></p>
+                                        <p className='sm:text-right ml-4 sm:ml-0  text-sm'>Warranty <span className='text-red-700'>*</span></p>
                                     </div>
                                     <div className='sm:w-2/3'>
-                                        <select required className="border text-sm relative  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none">
+                                        <select
+                                            name='warrantyInYears'
+                                            id='warrantyInYears'
+                                            value={warrantyInYears}
+                                            onChange={handleWarrantyInYears}
+                                            required className="border text-sm relative  border-gray-300 sm:w-[347px] px-4 ml-3 focus:outline-none focus:ring focus:border-blue-500 appearance-none">
                                             <option value="">Select Warranty</option>
                                             <option value="option1"> 1</option>
                                             <option value="option2"> 2</option>
@@ -396,9 +456,9 @@ const ProductModal = ({ isVisible, onClose }) => {
                                 Cancel
                             </button>
                             <button type="submit" className="bg-blue-500 text-white text-sm font-semibold py-1 px-4 ml-2 hover:bg-blue-700">
-                                Add
+                                Save
                             </button>
-                            {/* <p className='text-left hover:cursor-pointer text-blue-700 font-semibold text-sm pl-1'>Add more Product</p> */}
+
                         </div>
                     </div>
 
