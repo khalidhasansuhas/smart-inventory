@@ -1,20 +1,20 @@
 # [Smart-Inventory](https://smart-inventory-1c2ae.web.app/) 
 
 ## Description
-Smart-Inventory is a fully responsive Single Page Application  . It has a Header, main content section and a footer. A table of prodcuts are shown in the main section. if we click the "Add Inventory" button from main section a modal pops up to take all entries. after saving the product it will automatically show in the table. each product in the table has two buttons the edit button allows to edit the product and delete button will delete the product from the table. 
+Smart-Inventory is a fully responsive Single Page Application(SPA)  . It has a Header, main content section and a footer. A table of prodcuts are shown in the main section. if we click the "Add Inventory" button from main section a modal pops up to take all entries. after saving the product it will automatically show in the table. each product in the table has two buttons the edit button allows to edit the product and delete button will delete the product from the table. 
 
 ## Project Status
 Please note that this project is not fully functional. Due to API issues, some of the required functionality could not be implemented.
 
 ## Live Demo
-https://smart-inventory-1c2ae.web.app/ or You can access the live demo of the project [here](https://smart-inventory-1c2ae.web.app/).
+https://smart-inventory-1c2ae.web.app/ 
 
 ## Dependencies
--react-router-dom
--react-icons
--firebase
--sweetalert2
--axios
+-react-router-dom,
+-react-icons,
+-firebase,
+-sweetalert2,
+-axios,
 
 ## Installation
 To install and set up the project, follow the steps below:
